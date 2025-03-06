@@ -1,0 +1,5 @@
+-> fetching all the notes
+-> setup types 
+-> Setup the mock server
+--> setup data
+--> setup the routes
