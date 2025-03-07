@@ -6,6 +6,11 @@ import * as Yup from 'yup'
 import { useEffect, useState } from 'react';
 import { TNote } from '../types/notes';
 import axios, { AxiosResponse } from 'axios';
+import TextArea from '../components/shared/TextArea';
+import Input from '../components/shared/Input';
+import Button from '../components/shared/Button';
+import styled from 'styled-components';
+import { toast } from 'react-toastify';
 
 
 export type TUpdateNoteFormValues ={
@@ -27,22 +32,32 @@ interface UpdateNoteFormProps{
     onSubmit:(values: TUpdateNoteFormValues)=> void,
     initialValues?: TUpdateNoteFormValues
 }
+
+const StyledForm = styled.form`
+  
+  display:flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 const UpdateNoteForm=({onSubmit,initialValues}:UpdateNoteFormProps)=>{
     const formik = useFormik<TUpdateNoteFormValues>({
         initialValues: initialValues||defaultValues,
         validationSchema,
         onSubmit
     })
-    return <div>
-        <form>
+    return<StyledForm>
             <div>
-                <input value={formik.values.title} onChange={(e)=>formik.setFieldValue('title',e.target.value)}/>
+                <Input style={{width:'100%'}} value={formik.values.title} onChange={(e)=>formik.setFieldValue('title',e.target.value)}/>
             </div>
             <div>
-                <textarea value={formik.values.content} onChange={(e)=>formik.setFieldValue('content',e.target.value)}/>
+                <TextArea style={{width:'100%'}} value={formik.values.content} onChange={(e)=>formik.setFieldValue('content',e.target.value)}/>
             </div>
 
-            <button 
+            <Button 
                 onClick={()=>{
                     formik.handleSubmit()
                 }}
@@ -50,21 +65,25 @@ const UpdateNoteForm=({onSubmit,initialValues}:UpdateNoteFormProps)=>{
                 type = 'button'
             >
                 Update
-            </button>
-        </form>
-    </div>
+            </Button>
+        </StyledForm>
+    
 }
 
 const getNote= async(id:string)=>{
-    const res = await axios.get<null,AxiosResponse<{data:TNote}>>(`/notes/${id}`);
+    const res = await axios.get<null,AxiosResponse<{data:TNote}>>(URL+`/get-note?id=${id}`);
     console.log(res.data)
 
     return res.data
 }
-const updateNote = async (id:string,data:Omit<TNote,"id">)=>{
-    const res = await axios.put<Omit<TNote,"id">,AxiosResponse<{data:TNote}>>(`/notes/${id}`,data);
+const updateNote = async (id:string,data:Omit<TNote,"_id">)=>{
+    const res = await axios.put<Omit<TNote,"id">,AxiosResponse<{data:TNote}>>(URL+`/update-note?id=${id}`,data);
     return res.data
 }
+
+const StyledTitle = styled.h1`
+    text-align: center;
+`
 
 const Note = () => {
     const params = useParams<{id:string}>();
@@ -83,13 +102,15 @@ const Note = () => {
     },[params.id])
   return (
     <div>
-        <h1>Note{params.id}</h1>
+        <StyledTitle>Note{params.id}</StyledTitle>
         {
             noteData?
             <UpdateNoteForm
             onSubmit={async (values)=>{
                 // window.alert(JSON.stringify(values))
                 await updateNote(params.id as string,values);
+
+                toast.success("Successfully note updated")
             }}
             initialValues={noteData?{
                 content: noteData.content,
