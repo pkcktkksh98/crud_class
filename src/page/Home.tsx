@@ -12,6 +12,7 @@ import Button from '../components/shared/Button';
 import styled from 'styled-components';
 import Input from '../components/shared/Input';
 import { toast } from 'react-toastify';
+import { URL } from '../constants/misc.constant';
 // import TextArea from '../components/shared/TextArea';
 
 
@@ -64,18 +65,18 @@ const NoteForm=({onSubmit}:NoteFormProps)=>{
 // }
 
 const fetchNotes= async()=>{
-    const res = await axios.get<null,AxiosResponse<{data:TNote[]}>>(URL+"/fetch-note");
+    const res = await axios.get<null,AxiosResponse<{data:TNote[]}>>(URL+"/fetch-notes");
     console.log(res.data)
     return res.data
 }
 
 const createNote = async (data:Omit<TNote,"_id"|"content">)=>{
-    const res = await axios.post<Omit<TNote,"id"|"content">,AxiosResponse<{data:TNote}>>(URL+"/create-note",data);
+    const res = await axios.post<Omit<TNote,"id"|"content">,AxiosResponse<{data:TNote}>>(URL+"/create-notes",data);
     return res.data
 }
 
 const deleteNote= async(id:string)=>{
-    const res = await axios.delete<null,AxiosResponse<{data:{isSuccess:true}}>>(URL+`/delete-note/${id}`);
+    const res = await axios.delete<null,AxiosResponse<{data:{isSuccess:true}}>>(URL+`/delete-notes?id=${id}`);
     console.log(res.data)
 
     return res.data
@@ -94,6 +95,7 @@ const Home = () => {
     useEffect(()=>{
         const getNotes = async ()=>{{
             const notes = await fetchNotes();
+            console.log(notes.data)
             setNotes(notes.data)
         }}
 

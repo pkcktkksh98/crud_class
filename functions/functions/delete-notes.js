@@ -11,7 +11,7 @@ exports.handler = async (event)=>{
         const {id} = queryStringParameters
         const deleteNote = await Note.findByIdAndDelete(id);
         
-        if(!deleteNote){return{status:404, body:"Note not found"}}
+        if(!deleteNote){return{statusCode:404, body:"Note not found"}}
         
         return {
             statusCode:200,

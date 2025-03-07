@@ -64791,6 +64791,7 @@ var mongoose2 = require_mongoose2();
 var conn = null;
 async function connectToDatabase() {
   if (!conn) {
+    console.log(process.env.MONGO_URI);
     conn = await mongoose2.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true
@@ -64815,7 +64816,6 @@ exports.handler = async (event) => {
       );
       if (!updatedNote)
         return { statusCode: 404, body: "Note not found" };
-      await newNote.save();
       return {
         statusCode: 200,
         body: JSON.stringify({ data: updatedNote })

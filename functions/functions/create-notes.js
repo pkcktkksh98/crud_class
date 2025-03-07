@@ -1,7 +1,7 @@
 import { Note } from "../schema/note";
 import { connectToDatabase } from "../utils/db"
 
-exports.handler = async (event)=>{
+exports.handler = async (event) => {
    try {
     await connectToDatabase();
 

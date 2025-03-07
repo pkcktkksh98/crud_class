@@ -11,6 +11,7 @@ import Input from '../components/shared/Input';
 import Button from '../components/shared/Button';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
+import { URL } from '../constants/misc.constant';
 
 
 export type TUpdateNoteFormValues ={
@@ -71,13 +72,13 @@ const UpdateNoteForm=({onSubmit,initialValues}:UpdateNoteFormProps)=>{
 }
 
 const getNote= async(id:string)=>{
-    const res = await axios.get<null,AxiosResponse<{data:TNote}>>(URL+`/get-note?id=${id}`);
+    const res = await axios.get<null,AxiosResponse<{data:TNote}>>(URL+`/get-notes?id=${id}`);
     console.log(res.data)
 
     return res.data
 }
 const updateNote = async (id:string,data:Omit<TNote,"_id">)=>{
-    const res = await axios.put<Omit<TNote,"id">,AxiosResponse<{data:TNote}>>(URL+`/update-note?id=${id}`,data);
+    const res = await axios.put<Omit<TNote,"id">,AxiosResponse<{data:TNote}>>(URL+`/update-notes?id=${id}`,data);
     return res.data
 }
 

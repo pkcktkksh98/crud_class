@@ -19,7 +19,6 @@ exports.handler = async (event)=>{
 
         if(!updatedNote) return {statusCode: 404, body:"Note not found"};
 
-        await newNote.save()
 
         return {
             statusCode:200,
