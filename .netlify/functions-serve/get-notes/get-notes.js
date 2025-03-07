@@ -1,0 +1,1 @@
+module.exports = require('./functions/functions/get-notes.js')

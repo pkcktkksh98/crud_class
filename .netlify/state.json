@@ -1,0 +1,20 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Klang",
+			"country": {
+				"code": "MY",
+				"name": "Malaysia"
+			},
+			"subdivision": {
+				"code": "10",
+				"name": "Selangor"
+			},
+			"timezone": "Asia/Kuala_Lumpur",
+			"latitude": 3.036,
+			"longitude": 101.5137,
+			"postalCode": "41000"
+		},
+		"timestamp": 1741320263221
+	}
+}

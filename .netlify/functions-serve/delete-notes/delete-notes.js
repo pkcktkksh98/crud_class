@@ -1,0 +1,1 @@
+module.exports = require('./functions/functions/delete-notes.js')
