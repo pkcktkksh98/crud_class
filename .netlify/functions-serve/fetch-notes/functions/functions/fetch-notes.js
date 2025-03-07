@@ -64806,10 +64806,10 @@ exports.handler = async (event) => {
     await connectToDatabase();
     const { httpMethod } = event;
     if (httpMethod === "GET") {
-      const note = await Note.find();
+      const notes = await Note.find();
       return {
         statusCode: 200,
-        body: JSON.stringify({ data: note })
+        body: JSON.stringify({ data: notes })
       };
     }
     return { statusCode: 405, body: "Method not allowed" };
